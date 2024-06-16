@@ -1,33 +1,17 @@
-package com.mashupstack.recipe_sharing.models;
+package com.mashupstack.recipe_sharing.dto;
 
+public class UserDTO {
 
-
-import jakarta.persistence.*;
-
-import java.util.Set;
-
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String fullname;
     private String username;
     private String password;
 
-    public User(String fullname, String username, String password) {
+    public UserDTO(String fullname, String username, String password) {
         this.fullname = fullname;
         this.username = username;
         this.password = password;
-    }
-
-    public User() {
-    }
-
-    public Long getId() {
-        return id;
     }
 
 
@@ -55,4 +39,3 @@ public class User {
         this.password = password;
     }
 }
-
