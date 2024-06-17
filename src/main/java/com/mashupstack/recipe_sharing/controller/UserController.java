@@ -73,5 +73,18 @@ public class UserController {
 
     }
 
+    @PostMapping("/update")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+    public String updateProduct(@RequestBody UserDTO userDTO) {
+        Optional<User> optionalUserDetails = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
+        User userDetails = optionalUserDetails.get();
+        userDetails.setFullname(userDTO.getFullname());
+        userDetails.setUsername(userDTO.getUsername());
+        userDetails.setPassword(userDTO.getPassword());
+        userRepository.save(userDetails);
+
+        return "redirect:/all";
+    }
+
 
 }

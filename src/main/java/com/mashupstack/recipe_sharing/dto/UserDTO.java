@@ -14,6 +14,9 @@ public class UserDTO {
         this.password = password;
     }
 
+    public Long getId() {
+        return id;
+    }
 
     public String getFullname() {
         return fullname;

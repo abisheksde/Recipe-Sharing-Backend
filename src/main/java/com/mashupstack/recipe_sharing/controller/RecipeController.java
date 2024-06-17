@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -16,7 +17,12 @@ public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    @PostMapping
+    @GetMapping("/list")
+    public List<Recipe> getAllItems() {
+        return recipeRepository.findAll();
+    }
+
+    @PostMapping("/save")
     public Recipe createRecipe(@RequestParam String title,
                                @RequestParam String ingredients,
                                @RequestParam String steps,
