@@ -42,10 +42,10 @@ public class RecipeController {
         if (image != null) {
             recipe.setImage(image.getBytes());
         }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
 
-        recipe.setUsername(userEmail);
+        recipe.setUsername(userEmail);*/
         return recipeRepository.save(recipe);
     }
 
@@ -110,10 +110,11 @@ public class RecipeController {
         return recipeDetails;
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping("/delete")
     public String deleteProducts(@PathVariable Long id) {
         if (id != null) {
             recipeRepository.deleteById(id);
+
             return "redirect:/";
         }
         return "delete";
