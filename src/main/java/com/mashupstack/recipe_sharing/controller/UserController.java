@@ -8,6 +8,8 @@ import com.mashupstack.recipe_sharing.models.User;
 import com.mashupstack.recipe_sharing.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,16 +77,26 @@ public class UserController {
 
     @PostMapping("/update")
     @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-    public String updateProduct(@RequestBody UserDTO userDTO) {
+    public String updateProduct(/*@PathVariable Long id,*/ @RequestBody UserDTO userDTO) {
+        //Optional<User> optionalUserDetails = userRepository.findById(id);
         Optional<User> optionalUserDetails = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
-        User userDetails = optionalUserDetails.get();
-        userDetails.setFullname(userDTO.getFullname());
-        userDetails.setUsername(userDTO.getUsername());
-        userDetails.setPassword(userDTO.getPassword());
-        userRepository.save(userDetails);
+        if(optionalUserDetails.isPresent()){
+            User userDetails = optionalUserDetails.get();
+            userDetails.setFullname(userDTO.getFullname());
+            userDetails.setUsername(userDTO.getUsername());
+            userDetails.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            userRepository.save(userDetails);
+        }
 
         return "redirect:/all";
     }
 
+    @GetMapping("account/{id}")
+    public User loadUser(@PathVariable Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        return userRepository.findByUsername(username);
+    }
 
 }

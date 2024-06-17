@@ -16,11 +16,13 @@ public class User {
     private String fullname;
     private String username;
     private String password;
+    private String role;
 
     public User(String fullname, String username, String password) {
         this.fullname = fullname;
         this.username = username;
         this.password = password;
+
     }
 
     public User() {
@@ -28,6 +30,9 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+    public String getRole() {
+        return role;
     }
 
 

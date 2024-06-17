@@ -1,4 +1,5 @@
 /*
+
 package com.mashupstack.recipe_sharing.service;
 
 import com.mashupstack.recipe_sharing.models.User;
@@ -14,16 +15,25 @@ import java.util.ArrayList;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+
+     @Autowired
+     private UserRepository userRepository;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("user not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+
+
+        return new CustomUserDetail(user);
+
+
     }
+
+
 }
+
 */

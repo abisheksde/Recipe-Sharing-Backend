@@ -1,13 +1,17 @@
 package com.mashupstack.recipe_sharing.controller;
 
 import com.mashupstack.recipe_sharing.models.Recipe;
+import com.mashupstack.recipe_sharing.models.User;
 import com.mashupstack.recipe_sharing.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -38,6 +42,80 @@ public class RecipeController {
         if (image != null) {
             recipe.setImage(image.getBytes());
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+
+        recipe.setUsername(userEmail);
         return recipeRepository.save(recipe);
+    }
+
+    @GetMapping
+    public Iterable<Recipe> getAllRecipes() {
+        // Retrieve the currently authenticated user's email
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+
+        // Retrieve product list based on the user's email
+        Iterable<Recipe> recipes;
+        recipes = recipeRepository.findByUsername(userEmail);
+
+
+        return recipes;
+    }
+/*
+
+    @GetMapping("/update/{id}")
+    public Recipe updateProduct(@PathVariable Long id) {
+        Optional<Recipe> optionalRecipeDetails = recipeRepository.findById(id);
+        Recipe recipeDetails = optionalRecipeDetails.get();
+
+        return recipeDetails;
+    }
+*/
+
+    @PostMapping("/update")
+    public Recipe updateRecipe(/*@PathVariable Long id,*/
+                                @RequestParam String title,
+                                @RequestParam String ingredients,
+                                @RequestParam String steps,
+                                @RequestParam String cookingTime,
+                                @RequestParam String difficulty,
+                                @RequestParam(required = false) MultipartFile image) throws Exception {
+
+        //Optional<Recipe> optionalRecipeDetails = recipeRepository.findById(id);
+        Optional<Recipe> optionalRecipeDetails = recipeRepository.findByDifficulty(difficulty);
+        if(optionalRecipeDetails.isPresent()){
+            Recipe recipeDetails = optionalRecipeDetails.get();
+            recipeDetails.setTitle(title);
+            recipeDetails.setIngredients(ingredients);
+            recipeDetails.setSteps(steps);
+            recipeDetails.setCookingTime(cookingTime);
+            recipeDetails.setDifficulty(difficulty);
+            recipeDetails.setIngredients(ingredients);
+            if (image != null) {
+                recipeDetails.setImage(image.getBytes());
+            }
+
+            return recipeRepository.save(recipeDetails);
+        } else {
+            throw new RuntimeException("Recipe not found");
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    public Recipe deleteProduct(@PathVariable Long id) {
+        Optional<Recipe> optionalRecipeDetails = recipeRepository.findById(id);
+        Recipe recipeDetails = optionalRecipeDetails.get();
+
+        return recipeDetails;
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteProducts(@PathVariable Long id) {
+        if (id != null) {
+            recipeRepository.deleteById(id);
+            return "redirect:/";
+        }
+        return "delete";
     }
 }
