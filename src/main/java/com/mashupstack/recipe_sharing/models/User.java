@@ -4,8 +4,6 @@ package com.mashupstack.recipe_sharing.models;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -17,22 +15,25 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private int followers;
+    private int following;
+
+
+
+    public User() {
+    }
 
     public User(String fullname, String username, String password) {
         this.fullname = fullname;
         this.username = username;
         this.password = password;
-
-    }
-
-    public User() {
+        this.role = role;
+        this.followers = followers;
+        this.following = following;
     }
 
     public Long getId() {
         return id;
-    }
-    public String getRole() {
-        return role;
     }
 
 
@@ -58,6 +59,30 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(int followers) {
+        this.followers = followers;
+    }
+
+    public int getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(int following) {
+        this.following = following;
     }
 }
 

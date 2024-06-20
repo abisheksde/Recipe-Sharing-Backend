@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -35,6 +36,11 @@ public class UserController {
         //return ResponseEntity.ok(user1).getBody();
 
         return user1;
+    }
+
+    @GetMapping("/list")
+    public List<User> allUsers(){
+        return userRepository.findAll();
     }
 
     /*@GetMapping("/login")
