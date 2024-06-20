@@ -54,18 +54,18 @@ public class RecipeController {
         return recipeRepository.save(recipe);
     }
 
-    @GetMapping
-    public Iterable<Recipe> getAllRecipes() {
+    @GetMapping("/usersRecipes")
+    public List<Recipe> getAllRecipes() {
         // Retrieve the currently authenticated user's email
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
 
-        // Retrieve product list based on the user's email
-        Iterable<Recipe> recipes;
         recipes = recipeRepository.findByUsername(userEmail);
+        */
 
+        // Retrieve product list based on the user's email
 
-        return recipes;
+        return recipeRepository.findAll(); // (X)
     }
 
     @GetMapping("/update/{id}")
