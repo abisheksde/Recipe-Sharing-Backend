@@ -26,6 +26,11 @@ public class RecipeController {
         return recipeRepository.findAll();
     }
 
+   /* @GetMapping("/search")
+    public List<Recipe> getbyKeyword(@RequestParam String keyword){
+        return recipeRepository.findByKeyword(keyword);
+    }*/
+
     @PostMapping("/save")
     public Recipe createRecipe(@RequestParam String title,
                                @RequestParam String ingredients,
