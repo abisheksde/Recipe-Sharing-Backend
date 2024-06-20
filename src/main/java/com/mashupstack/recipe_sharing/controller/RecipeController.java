@@ -62,7 +62,6 @@ public class RecipeController {
 
         return recipes;
     }
-/*
 
     @GetMapping("/update/{id}")
     public Recipe updateProduct(@PathVariable Long id) {
@@ -71,10 +70,9 @@ public class RecipeController {
 
         return recipeDetails;
     }
-*/
 
-    @PostMapping("/update")
-    public Recipe updateRecipe(/*@PathVariable Long id,*/
+    @PostMapping("/update/{id}")
+    public Recipe updateRecipe(@PathVariable Long id,
                                 @RequestParam String title,
                                 @RequestParam String ingredients,
                                 @RequestParam String steps,
@@ -82,8 +80,8 @@ public class RecipeController {
                                 @RequestParam String difficulty,
                                 @RequestParam(required = false) MultipartFile image) throws Exception {
 
-        //Optional<Recipe> optionalRecipeDetails = recipeRepository.findById(id);
-        Optional<Recipe> optionalRecipeDetails = recipeRepository.findByDifficulty(difficulty);
+        Optional<Recipe> optionalRecipeDetails = recipeRepository.findById(id);
+        //Optional<Recipe> optionalRecipeDetails = recipeRepository.findByDifficulty(difficulty);
         if(optionalRecipeDetails.isPresent()){
             Recipe recipeDetails = optionalRecipeDetails.get();
             recipeDetails.setTitle(title);
@@ -102,7 +100,7 @@ public class RecipeController {
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/delete/")
     public Recipe deleteProduct(@PathVariable Long id) {
         Optional<Recipe> optionalRecipeDetails = recipeRepository.findById(id);
         Recipe recipeDetails = optionalRecipeDetails.get();
@@ -110,10 +108,11 @@ public class RecipeController {
         return recipeDetails;
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/delete/{id}") // {id}
     public String deleteProducts(@PathVariable Long id) {
         if (id != null) {
             recipeRepository.deleteById(id);
+            //recipeRepository.deleteAll();
 
             return "redirect:/";
         }

@@ -19,11 +19,12 @@ public class SecurityConfig{
     private CustomUserDetailsService customUserDetailsService;
 */
 
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return  new BCryptPasswordEncoder();
     }
-/*
+    /*
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(c -> c.disable())
@@ -40,11 +41,12 @@ public class SecurityConfig{
 
         return http.build();
     }
+*/
 
-    @Autowired
+/*    @Autowired
     public void configure (AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
-    }
+    }*/
 
-    */
 }
+//
