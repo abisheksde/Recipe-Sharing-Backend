@@ -1,6 +1,6 @@
 package com.mashupstack.recipe_sharing.models;
 
-
+//Models
 
 import jakarta.persistence.*;
 
